@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.nicsilver.jumpertest.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.nicsilver.jumpertest.MyBundle
 
 class MyApplicationService {
 

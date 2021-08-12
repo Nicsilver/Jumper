@@ -2,6 +2,32 @@
     <id>com.github.nicsilver.jumpertest</id>
     <name>JumperTest</name>
     <vendor>nicsilver</vendor>
+    <depends>com.intellij.modules.platform</depends>
+    <actions>
+        <group id="org.intellij.sdk.action.DynamicActionGroup"
+               class="com.github.nicsilver.jumpertest.action.DynamicActionGroup"
+               popup="true" text="Jump Actions" description="SDK dynamically grouped action example">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </group>
+        <action id="com.github.nicsilver.jumpertest.action.AddJumpAction"
+                class="com.github.nicsilver.jumpertest.action.AddJumpAction">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <override-text place="MainMenu" text="Add Jump Action"/>
+        </action>
+        <action id="com.github.nicsilver.jumpertest.action.ClearStateAction"
+                class="com.github.nicsilver.jumpertest.action.ClearStateAction">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <override-text place="MainMenu" text="Clea State"/>
+        </action>
+        <!--        <action id="org.intellij.sdk.action.PopupDialogAction" class="org.intellij.sdk.action.PopupDialogAction"-->
+        <!--                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example"-->
+        <!--                icon="SdkIcons.Sdk_default_icon">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--            <override-text place="MainMenu" text="Pop Dialog Action"/>-->
+        <!--            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>-->
+        <!--            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>-->
+        <!--        </action>-->
+    </actions>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -10,6 +36,11 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.nicsilver.jumpertest.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.nicsilver.jumpertest.services.MyProjectService"/>
+        <!--        <applicationConfigurable parentId="tools"-->
+        <!--                                 instance="com.github.nicsilver.jumpertest.action.AppSettingsConfigurable"-->
+        <!--                                 id="org.intellij.sdk.settings.AppSettingsConfigurable"-->
+        <!--                                 displayName="SDK: Application Settings Example"/>-->
+        <applicationService serviceImplementation="com.github.nicsilver.jumpertest.action.JumperState"/>
     </extensions>
 
     <applicationListeners>

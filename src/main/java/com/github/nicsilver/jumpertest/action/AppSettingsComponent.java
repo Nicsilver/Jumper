@@ -1,31 +1,52 @@
 package com.github.nicsilver.jumpertest.action;
 
-
-import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
-import com.intellij.util.ui.FormBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-/**
- * Supports creating and managing a {@link JPanel} for the Settings Dialog.
- */
-public class AppSettingsComponent
+public class AppSettingsComponent implements ActionListener
 {
-    
-    private final JPanel myMainPanel;
-    private final JBTextField myUserNameText = new JBTextField();
-    private final JBCheckBox myIdeaUserStatus = new JBCheckBox("Do you use IntelliJ IDEA? ");
+    private final JPanel myMainPanel = new JPanel();
+    private final JBTextField jumpAmount = new JBTextField();
     
     public AppSettingsComponent()
     {
-        myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("Enter user name: "), myUserNameText, 1, false)
-                .addComponent(myIdeaUserStatus, 1)
-                .addComponentFillVertically(new JPanel(), 0)
-                .getPanel();
+        myMainPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        
+        JBLabel jbLabel = new JBLabel("Enter jump amount: ");
+        JButton createJumpButton = new JButton("Create Jump");
+        createJumpButton.setName("Create Jump");
+        
+        
+        myMainPanel.add(jbLabel);
+        myMainPanel.add(jumpAmount);
+        myMainPanel.add(createJumpButton);
+        
+        JButton removeJumpButton = new JButton("Remove Jump");
+        removeJumpButton.setName("Remove Jump");
+        
+//        myMainPanel.add(separator);
+        myMainPanel.add(new JLabel(" | "));
+        myMainPanel.add(removeJumpButton);
+        removeJumpButton.addActionListener(this);
+        createJumpButton.addActionListener(this);
+    
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+    
+        myMainPanel.add(separator);
+        
+        JLabel currentlyAddedJumps = new JLabel("Currently added jumps:  ");
+        myMainPanel.add(currentlyAddedJumps);
+        
+        for (Integer jumpCaretAction : JumperState.getInstance().jumpCaretActions)
+        {
+            myMainPanel.add(new JLabel(jumpCaretAction.toString() + "  "));
+        }
     }
     
     public JPanel getPanel()
@@ -35,28 +56,32 @@ public class AppSettingsComponent
     
     public JComponent getPreferredFocusedComponent()
     {
-        return myUserNameText;
+        return jumpAmount;
     }
     
-    @NotNull
-    public String getUserNameText()
+    @Override
+    public void actionPerformed(ActionEvent e)
     {
-        return myUserNameText.getText();
+        int jumpAmount;
+        try
+        {
+            String jumpAmountText = this.jumpAmount.getText();
+            jumpAmount = Integer.parseInt(jumpAmountText);
+        } catch (NumberFormatException ex)
+        {
+            //TODO create message saying text must be an int.
+            ex.printStackTrace();
+            return;
+        }
+        
+        if (e.getActionCommand().equals("Create Jump"))
+        {
+            JumpManager.AddJumpAction(jumpAmount);
+        }
+        else if (e.getActionCommand().equals("Remove Jump"))
+        {
+            JumpManager.RemoveJumpAction(jumpAmount);
+        }
+        myMainPanel.updateUI();
     }
-    
-    public void setUserNameText(@NotNull String newText)
-    {
-        myUserNameText.setText(newText);
-    }
-    
-    public boolean getIdeaUserStatus()
-    {
-        return myIdeaUserStatus.isSelected();
-    }
-    
-    public void setIdeaUserStatus(boolean newStatus)
-    {
-        myIdeaUserStatus.setSelected(newStatus);
-    }
-    
 }

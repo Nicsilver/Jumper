@@ -1,6 +1,5 @@
 package com.github.nicsilver.jumpertest.action;
 
-
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -13,58 +12,63 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-/**
- * Menu action to clone a new caret based on an existing one.
- *
- * @see AnAction
- */
+
 public class JumpCaretAction extends AnAction
 {
-    
-    private final int jumpAmount;
-    
-    public JumpCaretAction(int jumpAmount)
+    enum EditorActions
     {
-        this.jumpAmount = jumpAmount;
+        UP,
+        DOWN,
+        UP_WITH_SELECTION,
+        DOWN_WITH_SELECTION
     }
     
-    public JumpCaretAction(@Nullable String text, @Nullable String description, @Nullable Icon icon, int jmp)
+    private final String action;
+    private final int jumpAmount;
+    
+    public JumpCaretAction(@Nullable String text, @Nullable String description, @Nullable Icon icon, int jumpAmount, EditorActions action)
     {
         super(text, description, icon);
-        this.jumpAmount = jmp;
-        
-        
+        this.jumpAmount = jumpAmount;
+        this.action = GetEditorAction(action);
     }
     
     @Override
     public void actionPerformed(@NotNull final AnActionEvent e)
     {
-        // Editor is known to exist from update, so it's not null
         final Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
-        // Get the action manager in order to get the necessary action handler...
         final EditorActionManager actionManager = EditorActionManager.getInstance();
-        // Get the action handler registered to clone carets
-        final EditorActionHandler actionHandler =
-                actionManager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN);
+        
+        EditorActionHandler editorActionHandler = actionManager.getActionHandler(this.action);
         
         for (int i = 0; i < jumpAmount; i++)
         {
-            actionHandler.execute(editor, editor.getCaretModel().getPrimaryCaret(), e.getDataContext());
+            editorActionHandler.execute(editor, editor.getCaretModel().getPrimaryCaret(), e.getDataContext());
         }
     }
     
-    @Override
-    public void update(@NotNull final AnActionEvent e)
+    private String GetEditorAction(EditorActions action)
     {
-//        final Project project = e.getProject();
-//        final Editor editor = e.getData(CommonDataKeys.EDITOR);
-//        // Make sure at least one caret is available
-//        boolean menuAllowed = false;
-//        if (editor != null && project != null) {
-//            // Ensure the list of carets in the editor is not empty
-//            menuAllowed = !editor.getCaretModel().getAllCarets().isEmpty();
-//        }
-//        e.getPresentation().setEnabledAndVisible(menuAllowed);
+        String ideActions;
+        switch (action)
+        {
+            case UP:
+                ideActions = IdeActions.ACTION_EDITOR_MOVE_CARET_UP;
+                break;
+            case DOWN:
+                ideActions = IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN;
+                break;
+            case UP_WITH_SELECTION:
+                ideActions = IdeActions.ACTION_EDITOR_MOVE_CARET_UP_WITH_SELECTION;
+                break;
+            case DOWN_WITH_SELECTION:
+                ideActions = IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN_WITH_SELECTION;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + action);
+        }
+        
+        return ideActions;
     }
     
 }

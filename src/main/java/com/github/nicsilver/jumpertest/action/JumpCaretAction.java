@@ -1,9 +1,6 @@
 package com.github.nicsilver.jumpertest.action;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.IdeActions;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
@@ -11,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 public class JumpCaretAction extends AnAction
 {
@@ -31,6 +29,7 @@ public class JumpCaretAction extends AnAction
         super(text, description, icon);
         this.jumpAmount = jumpAmount;
         this.action = GetEditorAction(action);
+    
     }
     
     @Override
@@ -67,8 +66,6 @@ public class JumpCaretAction extends AnAction
             default:
                 throw new IllegalStateException("Unexpected value: " + action);
         }
-        
         return ideActions;
     }
-    
 }

@@ -1,9 +1,16 @@
 package com.github.nicsilver.jumpertest.action;
 
+import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.extensions.PluginId;
+import com.intellij.openapi.keymap.KeymapManager;
 import icons.SdkIcons;
 
+import javax.swing.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import static com.intellij.openapi.actionSystem.ActionManager.getInstance;
+import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 public class JumpManager
 {
@@ -34,6 +41,9 @@ public class JumpManager
         getInstance().registerAction("JumpDown " + jumpAmount, jumpDown, PluginId.getId("Jumper"));
         getInstance().registerAction("JumpUpSelect " + jumpAmount, jumpUpWithSelection, PluginId.getId("Jumper"));
         getInstance().registerAction("JumpDownSelect " + jumpAmount, jumpDownWithSelection, PluginId.getId("Jumper"));
+        
+        KeymapManager.getInstance().getActiveKeymap().addShortcut("JumpUp " + jumpAmount,
+                new KeyboardShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_F9, InputEvent.SHIFT_DOWN_MASK + CTRL_DOWN_MASK), null));
     }
     
     public static void UnregisterJumpAction(int jumpAmount)
@@ -43,4 +53,6 @@ public class JumpManager
         getInstance().unregisterAction("JumpUpSelect " + jumpAmount);
         getInstance().unregisterAction("JumpDownSelect " + jumpAmount);
     }
+    
+    
 }

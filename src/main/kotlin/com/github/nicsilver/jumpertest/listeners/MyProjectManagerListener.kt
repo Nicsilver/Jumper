@@ -1,4 +1,4 @@
-package com.github.nicsilver.jumpertest.listeners//package com.github.nicsilver.jumpertest.listeners
+package com.github.nicsilver.jumpertest.listeners
 
 import com.github.nicsilver.jumpertest.services.MyProjectService
 import com.intellij.openapi.components.service

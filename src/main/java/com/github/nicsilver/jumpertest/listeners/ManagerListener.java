@@ -13,7 +13,10 @@ public class ManagerListener implements ProjectManagerListener, DumbAware
     public void projectOpened(@NotNull Project project)
     {
         ProjectManagerListener.super.projectOpened(project);
-        
-        JumperState.getInstance().jumpCaretActions.forEach(JumpManager::RegisterJumpAction);
+    
+        for (Integer jumpCaretAction : JumperState.getInstance().jumpCaretActions)
+        {
+            JumpManager.RegisterJumpAction(jumpCaretAction);
+        }
     }
 }

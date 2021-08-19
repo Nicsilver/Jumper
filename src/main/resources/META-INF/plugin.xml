@@ -1,11 +1,8 @@
 <idea-plugin>
     <id>com.github.nicsilver.jumpertest</id>
-    <name>JumperTest</name>
-    <vendor>nicsilver</vendor>
-    <depends>com.intellij.modules.platform</depends>
+    <name>Jumper</name>
+    <vendor>Nicolaj Jensen</vendor>
 
-    <!-- Product and plugin compatibility requirements -->
-    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">

@@ -17,4 +17,5 @@ lines.
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Jumper"</kbd> >
   <kbd>Install Plugin</kbd>
-  
+
+<!-- Icon by Benjamin Hoffmeyer -->

@@ -37,6 +37,4 @@ public class JumperState implements PersistentStateComponent<JumperState>
     {
         XmlSerializerUtil.copyBean(state, this);
     }
-    
-    
 }

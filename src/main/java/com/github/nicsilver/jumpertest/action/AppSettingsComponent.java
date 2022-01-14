@@ -5,7 +5,6 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ex.Settings;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.VerticalFlowLayout;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.concurrency.EdtExecutorService;
 import org.jdesktop.swingx.HorizontalLayout;
@@ -19,15 +18,18 @@ import java.util.concurrent.TimeUnit;
 
 public class AppSettingsComponent implements ActionListener
 {
+    private final int fontSize = 20;
     private final JPanel myMainPanel = new JPanel();
     private final JBTextField jumpAmount = new JBTextField();
-    private final JLabel jumpCountLabel = new JLabel();
+    private final JLabel jumpCountLabel = createJLabelWithFontSize("", fontSize);
     
     public AppSettingsComponent()
     {
+        
         JPanel flow1 = new JPanel();
         JPanel flow2 = new JPanel();
         JPanel flow3 = new JPanel();
+        
         
         for (JPanel jPanel : Arrays.asList(flow1, flow2, flow3))
         {
@@ -35,11 +37,11 @@ public class AppSettingsComponent implements ActionListener
         }
         
         myMainPanel.setLayout(new VerticalFlowLayout());
-        JBLabel jbLabel = new JBLabel("Enter jump amount: ");
+        JLabel jLabel = createJLabelWithFontSize("Enter jump amount: ", fontSize);
         JButton createJumpButton = new JButton("Create Jump");
         createJumpButton.setName("Create Jump");
         
-        flow1.add(jbLabel);
+        flow1.add(jLabel);
         flow1.add(jumpAmount);
         flow1.add(createJumpButton);
         
@@ -47,12 +49,12 @@ public class AppSettingsComponent implements ActionListener
         removeJumpButton.setName("Remove Jump");
 
 //        flow1.add(separator);
-        flow1.add(new JLabel(" | "));
+        flow1.add(createJLabelWithFontSize(" | ", fontSize));
         flow1.add(removeJumpButton);
         removeJumpButton.addActionListener(this);
         createJumpButton.addActionListener(this);
         
-        JLabel currentlyAddedJumps = new JLabel("Currently added jumps:  ");
+        JLabel currentlyAddedJumps = createJLabelWithFontSize("Currently added jumps:  ", fontSize);
         flow2.add(currentlyAddedJumps);
         
         
@@ -139,5 +141,12 @@ public class AppSettingsComponent implements ActionListener
         }
         
         this.jumpCountLabel.setText(labelText.toString());
+    }
+    
+    private JLabel createJLabelWithFontSize(String text, int size)
+    {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("", Font.PLAIN, size));
+        return label;
     }
 }

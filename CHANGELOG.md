@@ -1,8 +1,7 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# JumperTest Changelog
+# Jumper Changelog
 
-## [0.1.2]
+## [0.1.3]
 
-### Added
-- Icon added
+- Support for 2020.1 added

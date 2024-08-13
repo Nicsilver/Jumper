@@ -2,7 +2,6 @@
 
 # Jumper Changelog
 
-## [0.1.4]
+## [0.1.5]
 
-- Support for 2023.1 added
-- Thank you Joshua! https://github.com/Josh-Piper
+- Should no longer break every major version

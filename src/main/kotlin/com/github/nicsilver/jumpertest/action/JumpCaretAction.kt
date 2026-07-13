@@ -3,8 +3,10 @@ package com.github.nicsilver.jumpertest.action
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.actionSystem.PlatformDataKeys
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionManager
 import javax.swing.Icon
 import javax.swing.JList
@@ -34,21 +36,22 @@ class JumpCaretAction(
 
     override fun actionPerformed(e: AnActionEvent) {
         // Try editor, then tree, then list
-        e.getData(CommonDataKeys.EDITOR)?.let { handleEditorJump(e) }
-            ?: e.getData(PlatformDataKeys.CONTEXT_COMPONENT).let { component ->
-                when (component) {
-                    is JTree -> handleTreeJump(component)
-                    is JList<*> -> handleListJump(component)
-                }
+        val editor = e.getData(CommonDataKeys.EDITOR)
+        if (editor != null) {
+            handleEditorJump(editor, e.dataContext)
+        } else {
+            when (val component = e.getData(PlatformDataKeys.CONTEXT_COMPONENT)) {
+                is JTree -> handleTreeJump(component)
+                is JList<*> -> handleListJump(component)
             }
+        }
     }
 
-    private fun handleEditorJump(e: AnActionEvent) {
-        val editor = e.getRequiredData(CommonDataKeys.EDITOR)
+    private fun handleEditorJump(editor: Editor, dataContext: DataContext) {
         val handler = EditorActionManager.getInstance().getActionHandler(ideAction)
 
         repeat(jumpAmount) {
-            handler.execute(editor, editor.caretModel.primaryCaret, e.dataContext)
+            handler.execute(editor, editor.caretModel.primaryCaret, dataContext)
         }
     }
 

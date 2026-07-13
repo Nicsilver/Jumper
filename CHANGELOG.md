@@ -2,6 +2,21 @@
 
 # Jumper Changelog
 
+## [0.2.2] - 2026-07-13
+
+### Fixed
+
+- Replaced platform APIs scheduled for removal so the plugin stays compatible with current and upcoming IDEs:
+  - Migrated project-open handling from the deprecated `ProjectManagerListener.projectOpened` to `ProjectActivity` (`postStartupActivity`)
+  - Removed the deprecated `AnActionEvent.getRequiredData` usage in the editor jump handler
+  - Removed unused IntelliJ-template boilerplate (`My*` service/listener/bundle classes)
+
+## [0.2.1] - 2026-02-07
+
+### Fixed
+
+- Fixed plugin description formatting for JetBrains Plugin Marketplace
+
 ## [0.2.0] - 2026-02-07
 
 ### Major Update

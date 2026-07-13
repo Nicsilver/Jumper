@@ -11,10 +11,6 @@
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="Jumper Settings"/>
         <applicationService serviceImplementation="com.github.nicsilver.jumpertest.action.JumperState"/>
+        <postStartupActivity implementation="com.github.nicsilver.jumpertest.listeners.ManagerListener"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.nicsilver.jumpertest.listeners.ManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>
